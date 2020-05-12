@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main_dash">
+        <div class="inner1">
+            <div class="nav_inner container">
+                <nav class="navbar navbar-expand-lg">
+                    <a class="navbar-brand" href="/mainpage">KOLO <span class="Brand_shop">SHOP</span> </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="/mainpage">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#Shoes">Shoes</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#Phones">Phones</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#Bags">Bags</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#Watches">Watches</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#Clothes">Clothes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/logout">log out</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="checkout">
+                                        <a href="#">checkout <span class="item_number" id="item_number"></span> </a>
+                                    </div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                            <li class="nav-item name">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <%= name.user_name %>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="info">
+                <div class="info_text">
+                    <div class="txt">
+                        <h2>Buy Best Products From <br>
+                            From All Over The World</h2>
+                        <p>get the best products from Oloja at a very affordable price <br>
+                            super quick delivery</p>
+                    </div>
+                    <div class="info_btn">
+                        <button>products</button>
+                        <button>explore</button>
+                    </div>
+                </div>
+                <div class="info_img">
+
+                </div>
+            </div>
+        </div>
+        <div class="inner2">
+            <div class="product_header " id="Shoes">
+                <h5>SHOE COLLECTION</h5>
+            </div>
+            <div class="container row mt-4">
+                <% if(result.length === 0) { %>
+                <div class="unavailable">
+                    <h4>Shoes are not available at this time kindly checkback in few minutes</h4>
+                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+                </div>
+                <% } %>
+
+                <% result.forEach((data)=> { %>
+                <div class="col-m-3 m-4">
+                    <div class="card" style="width: 18rem;">
+                        <img id="card_img" height="180" src=<%= data.image %> class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 id="shoe_name"><%= data.shoe_name %></h6>
+                            <h5 class="card-title price" id="shoe_price"><%= data.shoe_price %> </h5>
+                            <button id="add_to_cart"><i class="fad fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+            <div class="product_header" id="Phones">
+                <h4>PHONE COLLECTION</h4>
+            </div>
+            <div class="container row mt-4">
+                <% if(result2.length === 0 ) { %>
+                <div class="unavailable">
+                    <h4>Phones are not available at this time kindly checkback in few minutes</h4>
+                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+                </div>
+                <% } %>
+                <% result2.forEach((Phones)=> { %>
+                <div class="col-m-3 m-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src=<%= Phones.image %> height="180" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6><%= Phones.phone_name %></h6>
+                            <h5 class="card-title price" id="phone_price"><%= Phones.phone_price %> </h5>
+                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <div class="product_header" id="Bags">
+                <h4>BAG COLLECTION</h4>
+            </div>
+            <div class="container row mt-4">
+                <% if(result3.length === 0 ) { %>
+                <div class="unavailable">
+                    <h4>Bags are not available at this time kindly checkback in few minutes</h4>
+                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+                </div>
+                <% } %>
+                <% result3.forEach((bag)=> { %>
+                <div class="col-m-3 m-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src=<%= bag.image %> height="180" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6><%= bag.bag_name %></h6>
+                            <h5 class="card-title price" id="phone_price"><%= bag.bag_price %> </h5>
+                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <div class="product_header" id="Clothes">
+                <h4>CLOTH COLLECTION</h4>
+            </div>
+            <div class="container row mt-4">
+                <% if(result4.length === 0 ) { %>
+                <div class="unavailable">
+                    <h4>Clothes are not available at this time kindly checkback in few minutes</h4>
+                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+                </div>
+                <% } %>
+                <% result4.forEach((cloth)=> { %>
+                <div class="col-m-3 m-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src=<%= cloth.image %> height="180" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6><%= cloth.cloth_name %></h6>
+                            <h5 class="card-title price" id="phone_price"><%= cloth.cloth_price %> </h5>
+                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+            <div class="product_header" id="Watches">
+                <h4>WATCH COLLECTION</h4>
+            </div>
+            <div class="container row mt-4">
+                <% if(result5.length === 0 ) { %>
+                <div class="unavailable">
+                    <h4>Watches are not available at this time kindly checkback in few minutes</h4>
+                    <img src="../src/images/worker-crying_1012-222.jpg" alt="sad" height="150" width="150">
+                </div>
+                <% } %>
+                <% result5.forEach((watch)=> { %>
+                <div class="col-sm-3 m-4">
+                    <div class="card" style="width: 15rem;">
+                        <img src=<%= watch.image %> height="220" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6><%= watch.Wristwatch_name %></h6>
+                            <h5 class="card-title price" id="phone_price"><%= watch.Wristwatch_price %> </h5>
+                            <button class="cart"><i class="fad fa-cart-plus"></i></i></button>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+        <div class="collection">
+            <div class="collection_text">
+                <h1>Upcoming collection</h1>
+                <p>Art. Beauty. color. Love. Excellence. <br>
+                    Those are the words that drive the vision behind each of our collection</p>
+                <button>Read More</button>
+            </div>
+        </div>
+        <div class="contact_us">
+
+        </div>
+    </div>
+</body>
+
+</html>

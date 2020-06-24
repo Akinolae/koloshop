@@ -1,7 +1,7 @@
 <div class="register">
   <div class="form_reg">
     <div class="container form">
-      <form method="POST" action="/register">
+      <form method="POST" action="/koloshop/api/server/register">
         <h4>Create account</h4>
         <% if( typeof error != 'undefined') { %>
         <% error.forEach(function(err){ %>
@@ -28,7 +28,7 @@
           <input type="text" name="address" id="address" placeholder="home address">
           <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
           <input type="password" name="password2" id="password2" placeholder="confirm password">
-          <button class="container btn btn-primary btn-sm">
+          <button type="submit" class="container btn btn-primary btn-sm">
             sign up
           </button>
         </div>

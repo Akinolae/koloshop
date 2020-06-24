@@ -1,6 +1,5 @@
 // All requred dependencies are imported below !
 const express = require("express");
-const https = require("https");
 const path = require("path");
 const encrypt = require("bcryptjs");
 const expressLayout = require("express-ejs-layouts");
@@ -78,25 +77,6 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/mainpage", authenticated, (req, res) => {
-  const {
-    user_id,
-    user_email,
-    user_address
-  } = req.user;
-
-  const transaction_code = Math.floor(Math.random() * 100000);
-
-  let transactions = {
-    transaction_id: transaction_code,
-    customer_id: user_id,
-    product_name: 'yeezy boost',
-    number_of_purchases: 3,
-    address: user_address,
-    total_price: 20000,
-  }
-  db.query('INSERT INTO Transactions SET ?', transactions, (err, data) => {
-    if (err) throw err;
-  })
   // query the database to display products
   db.query("SELECT * FROM Shoes", (err, result) => {
     db.query("SELECT * FROM Phones", (err, result2) => {
@@ -104,7 +84,6 @@ app.get("/mainpage", authenticated, (req, res) => {
         db.query("SELECT * FROM Clothes", (err, result4) => {
           db.query("SELECT * FROM Wristwatches", (err, result5) => {
             if (err) throw err;
-            console.log(result5);
             res.render("mainpage", {
               name: req.user,
               result,
@@ -126,7 +105,9 @@ app.get("/logout", (req, res) => {
   req.logOut();
   res.redirect("/");
 });
-
+app.get("/forgotPassword", (req, res)=> {
+  res.render("forgotPassword");
+})
 app.get("/user_profile/:email", (req, res) => {
   const email = req.params.email;
   let found = false;
@@ -149,7 +130,7 @@ app.get("/user_profile/:email", (req, res) => {
 // All get requests end here!
 
 // This handles the user registration
-app.post("/register", (req, res) => {
+app.post("/koloshop/api/server/register", (req, res) => {
   // deconstructing each data to be pushed into the database
   const {
     firstName,
@@ -215,20 +196,72 @@ app.post("/register", (req, res) => {
         dbError.push({
           msg: `user ${firstName} or email ${email} already exists`,
         });
-        res.render("register", {
+        res.redirect("register", {
           dbError,
         });
       } else {
-        req.flash("success_msg", "you are now regsitered!");
-        res.redirect("login");
+        res.redirect('/login');
       }
     });
   }
 });
 
+app.post("/api/koloshop/servers/passwordReset", (req, res) => {
+  const error = [];
+  const { email } = req.body;
+  db.query("SELECT user_email FROM users WHERE user_email = ?" , email , (err, response) => {
+    if(response.length === 0){
+      error.push({
+        message: `user with ${email} doesn't exist`,
+        message2: "it could be that you have input the wrong email or you haven't signed up on our website."
+
+      })
+      res.render("forgotPassword", {
+        error
+      })
+      // console.log(error);
+    }else if (response.length > 0){
+    res.json({
+      email
+    })
+    }
+  })
+  
+})
+
+// This handles the transaction request of each user.
+app.post("/user/api/cart/", (req, res) => {
+  const {
+    user_id,
+    user_address,
+  } = req.user;
+
+  const {
+    number_of_purchases,
+    product_name,
+    total_price
+  } = req.body;
+  const transaction_code = Math.floor(Math.random() * 100000);
+
+  let transactions = {
+    transaction_id: transaction_code,
+    customer_id: user_id,
+    product_name: product_name,
+    number_of_purchases: number_of_purchases,
+    address: user_address,
+    total_price: total_price,
+  }
+  db.query('INSERT INTO Transactions SET ?', transactions, (err, data) => {
+    if (err) throw err;
+    res.json({
+      status: 200,
+      message: `Dear ${user_name}, your order details has been sent to ${user_email}.`
+    })
+  })
+})
 // Login authentication.
 app.post(
-  "/login",
+  "/koloshop/api/server/login",
   passport.authenticate("local", {
     successRedirect: "/mainpage",
     failureRedirect: "/login",

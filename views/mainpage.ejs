@@ -30,47 +30,30 @@
                             <li class="nav-item ">
                                 <a class="nav-link" href="#Clothes">Clothes</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/logout">log out</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <div class="checkout">
-                                        <a href="#">checkout <span class="item_number" id="item_number"></span> </a>
-                                    </div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart" style="color: #ffff;" aria-hidden="true"></i></a>
                             </li>
                             <li class="nav-item name">
                                 <i class="fa fa-user" aria-hidden="true"></i>
-                                <%= name.user_name %>
+                                <button><%= name.user_name %></button>
+                                <ul><a class="nav-link" href="/logout">log out</a></ul>
                             </li>
                         </ul>
                     </div>
                 </nav>
             </div>
-            <div class="info">
+            <div class="info container">
                 <div class="info_text">
                     <div class="txt">
-                        <h2>Buy Best Products From <br>
-                            From All Over The World</h2>
-                        <p>get the best products from Oloja at a very affordable price <br>
+                        <h2>Buy Best Products From All Over The World</h2>
+                        <p>get the best products from Koloshop at a very affordable price <br>
                             super quick delivery</p>
                     </div>
                     <div class="info_btn">
                         <button>products</button>
                         <button>explore</button>
                     </div>
-                </div>
-                <div class="info_img">
-
                 </div>
             </div>
         </div>
@@ -93,7 +76,8 @@
                         <div class="card-body">
                             <h6 id="shoe_name"><%= data.shoe_name %></h6>
                             <h5 class="card-title price" id="shoe_price"><%= data.shoe_price %> </h5>
-                            <button id=<%= data.shoe_id %><i class="fad fa-cart-plus"></i></button>
+                            <button id=<%= data.shoe_id %><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
+                                    aria-hidden="true"></i></span></button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +101,8 @@
                         <div class="card-body">
                             <h6><%= Phones.phone_name %></h6>
                             <h5 class="card-title price" id="phone_price"><%= Phones.phone_price %> </h5>
-                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
+                                        aria-hidden="true"></i></span></i></button>
                         </div>
                     </div>
                 </div>
@@ -140,7 +125,8 @@
                         <div class="card-body">
                             <h6><%= bag.bag_name %></h6>
                             <h5 class="card-title price" id="phone_price"><%= bag.bag_price %> </h5>
-                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
+                                        aria-hidden="true"></i></span></button>
                         </div>
                     </div>
                 </div>
@@ -163,7 +149,7 @@
                         <div class="card-body">
                             <h6><%= cloth.cloth_name %></h6>
                             <h5 class="card-title price" id="phone_price"><%= cloth.cloth_price %> </h5>
-                            <button class="cart"><i class="fad fa-cart-plus"></i></button>
+                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;" aria-hidden="true"></i></span></button>
                         </div>
                     </div>
                 </div>
@@ -186,7 +172,7 @@
                         <div class="card-body">
                             <h6><%= watch.Wristwatch_name %></h6>
                             <h5 class="card-title price" id="phone_price"><%= watch.Wristwatch_price %> </h5>
-                            <button class="cart"><i class="fad fa-cart-plus"></i></i></button>
+                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;" aria-hidden="true"></i></span></button>
                         </div>
                     </div>
                 </div>
@@ -199,6 +185,14 @@
                 <p>Art. Beauty. color. Love. Excellence. <br>
                     Those are the words that drive the vision behind each of our collection</p>
                 <button>Read More</button>
+            </div>
+        </div>
+        <div class="collection2">
+            <div class="collection2_text">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti dolor vero fugiat quas, ea vitae amet dolorem repudiandae similique sapiente voluptas molestiae ab voluptatibus nam! Perferendis ipsam et ratione. Tempora?</p>
+            </div>
+            <div class="collection2_img">
+                <img id="timbs" src="/images/images (11).jpeg" alt="" height="200" width="200">
             </div>
         </div>
         <div class="contact_us">

@@ -1,14 +1,16 @@
 <div class="register">
-    <div class="form">
-        <form action="/koloshop/api/server/login" method="POST">
+    <div class="form login">
+        <form action="/koloshop/api/server/login" method="POST" autocomplete="off">
             <h4>Log in</h4>
             <div class="form-group">
-                <input type="email" name="email" id="email" placeholder="enter email" required>
-                <input type="password" name="password" placeholder="enter password" required>
+                <input type="email" name="email" id="email" placeholder="enter email"  value="<%= typeof email != 'undefined' ? email : '' %>">
+                <input type="password" name="password" placeholder="enter password"  value="<%= typeof password != 'undefined' ? password : '' %>">
                 <button class="container btn btn-primary btn-sm">log in</button>
             </div>
-            <p>click <a href="/register">here</a> to sign up</p>
-            <a class="forgot" href="/forgotPassword">Forgot password</a>
+            <div class="login_links">
+                <p>click <a href="/register">here</a> to sign up</p>
+                <a href="/forgotPassword">Forgot password ?</a>
+            </div>
         </form>
     </div>
 </div>

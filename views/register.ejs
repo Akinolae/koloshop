@@ -1,13 +1,11 @@
 <div class="register">
   <div class="form_reg">
     <div class="container form">
-      <form method="POST" action="/koloshop/api/server/register">
+      <form method="POST" action="/register" autocomplete="off">
         <h4>Create account</h4>
         <% if( typeof error != 'undefined') { %>
         <% error.forEach(function(err){ %>
-        <div class="alert alert-warning alert-dismissible fade show bg-light" role="alert">
-          *<%= err.msg %>
-        </div>
+          <h6 class="reg_err"><%= err.msg %></h6>
         <% }) %>
         <% } %>
 
@@ -22,12 +20,12 @@
         <% }) %>
         <% } %>
         <div class="form-group">
-          <input type="text" class="form-control" name="firstName" id="firstName" placeholder="first name" />
-          <input type="email" class="form-control" name="email" id="email" placeholder="enter email" />
-          <input type="number" class="form-control" name="user_age" id="user_age" placeholder="enter your age" />
-          <input type="text" name="address" id="address" placeholder="home address">
-          <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" />
-          <input type="password" name="password2" id="password2" placeholder="confirm password">
+          <input type="text" class="form-control" name="firstName" id="firstName" placeholder="first name"  value="<%= typeof firstName != 'undefined' ? firstName : '' %>"/>
+          <input type="email" class="form-control" name="email" id="email" placeholder="enter email" value="<%= typeof email != 'undefined' ? email : '' %>" />
+          <input type="number" class="form-control" name="user_age" id="user_age" placeholder="enter your age" value="<%= typeof user_age != 'undefined' ? user_age : '' %>"/>
+          <textarea name="address" class="form-control textArea" placeholder="enter a valid home address" id="address" value="<%= typeof address != 'undefined' ? address : '' %>"></textarea>
+          <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" value="<%= typeof password != 'undefined' ? password : '' %>" />
+          <input type="password" name="password2" id="password2" placeholder="confirm password" value="<%= typeof password2 != 'undefined' ? password2 : '' %>">
           <button type="submit" class="container btn btn-primary btn-sm">
             sign up
           </button>

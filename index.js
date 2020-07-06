@@ -1,6 +1,7 @@
 // All requred dependencies are imported below !
 const express = require("express");
 const path = require("path");
+const nodemailer = require('nodemailer');
 const encrypt = require("bcryptjs");
 const expressLayout = require("express-ejs-layouts");
 const passport = require("passport");
@@ -10,8 +11,10 @@ const session = require("express-session");
 const {
   authenticated
 } = require("./config/ensureAuth");
-//============================
+const configuration = require("./config/gmailConfig");
+const accountNumber = Math.floor(Math.random() * 10000000000);
 
+//============================
 require("./config/passportAuth")(passport);
 const app = express();
 // Initializing all middlewares
@@ -29,6 +32,7 @@ app.use(
     saveUninitialized: true,
   })
 );
+// app.use()
 app.use(flash());
 app.use(express.static(path.join(__dirname, "/src")));
 app.use("uploads", express.static(path.join(__dirname, "uploads")));
@@ -64,9 +68,23 @@ db.connect((err) => {
 // retrieve product data from the database
 
 // All get requests!. getting the basic routes to the website!
+// get requests
+
 app.get("/", (req, res) => {
   res.render("login");
 });
+
+app.get('/account', (req, res)=> {
+  res.render("account");
+});
+
+app.get('/resetpassword', (req, res) => {
+  res.render('resetpassword');
+})
+
+app.get('/cart', (req, res)=> {
+  res.render('cart');
+})
 
 app.get("/register", (req, res) => {
   res.render("register");
@@ -75,6 +93,15 @@ app.get("/register", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("login");
 });
+
+app.get("/logout", (req, res) => {
+  req.logOut();
+  res.redirect("/");
+});
+
+app.get("/forgotPassword", (req, res) => {
+  res.render("forgotPassword");
+})
 
 app.get("/mainpage", authenticated, (req, res) => {
   // query the database to display products
@@ -99,38 +126,33 @@ app.get("/mainpage", authenticated, (req, res) => {
   });
 });
 
-
-
-app.get("/logout", (req, res) => {
-  req.logOut();
-  res.redirect("/");
-});
-app.get("/forgotPassword", (req, res)=> {
-  res.render("forgotPassword");
-})
-app.get("/user_profile/:email", (req, res) => {
-  const email = req.params.email;
-  let found = false;
-  database
-    .select("user_email")
-    .from("Users")
-    .then((users) => {
-      users.filter((user) => {
-        if (user.user_email === email) {
-          found = true;
-          res.json(`user with email ${email} already exists`);
-        } else {
-          found = false;
-          res.json(`${email} is valid!`);
-        }
-      });
-    });
-});
-
 // All get requests end here!
+// ==========================
 
-// This handles the user registration
-app.post("/koloshop/api/server/register", (req, res) => {
+
+// All post requests
+// POST request
+app.post("/save", (req, res) => {
+  const {firstname, lastname, accounttype } = req.body;
+  const user = {
+    account_number: 202918826,
+    firstname: firstname,
+    lastname: lastname,
+    accounttype: accounttype,
+    accountbalance: 10000
+  }
+  console.log(user);
+  db.query('INSERT INTO accounts SET ?', user, (err,data) => {
+    if(err) {
+      console.log(`${user.account_number} already exists`);
+    };
+    console.log(data)
+    res.render("account");
+  })
+})
+
+// Registers each user.
+app.post("/register", (req, res) => {
   // deconstructing each data to be pushed into the database
   const {
     firstName,
@@ -142,10 +164,19 @@ app.post("/koloshop/api/server/register", (req, res) => {
   } = req.body;
 
   const error = [];
-  if (!firstName || !email || !password || !user_age) {
+
+  db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, data)=> {
+    if(data.length > 0){
+      console.log(data);
+      error.push({
+        msg: `user with ${email} already exists`
+      })
+    } 
+  });
+  if(!email ){
     error.push({
-      msg: "all fields are required! ",
-    });
+      msg: "email is required"
+    })
   }
   if (password !== password2) {
     error.push({
@@ -196,7 +227,7 @@ app.post("/koloshop/api/server/register", (req, res) => {
         dbError.push({
           msg: `user ${firstName} or email ${email} already exists`,
         });
-        res.redirect("register", {
+        res.render("register", {
           dbError,
         });
       } else {
@@ -206,27 +237,75 @@ app.post("/koloshop/api/server/register", (req, res) => {
   }
 });
 
-app.post("/api/koloshop/servers/passwordReset", (req, res) => {
+
+//password reset 
+// Nodemailer is used here to send information to the email the user provided.
+// It checks that user exists before it carries out the assignment given to it.
+// It sends a string of messages upon completion of tasks
+// If you have any errors with my code, kindly visit the nodemailer website for more clarity. Thanks.
+
+app.post("/passwordReset", (req, res) => {
   const error = [];
+  
   const { email } = req.body;
-  db.query("SELECT user_email FROM users WHERE user_email = ?" , email , (err, response) => {
-    if(response.length === 0){
+  db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, response) => {
+    if (response.length === 0) {
       error.push({
-        message: `user with ${email} doesn't exist`,
-        message2: "it could be that you have input the wrong email or you haven't signed up on our website."
+        message: `user with ${email} doesn't exist.`,
+        message2: "kindly input a valid email address."
 
       })
       res.render("forgotPassword", {
         error
       })
-      // console.log(error);
-    }else if (response.length > 0){
-    res.json({
-      email
-    })
+      // If the query returns a value
+    } else if (response.length > 0) {
+
+        async function main() {
+
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+              user: configuration.gmailAccount().email, // Specific gmail account which can be found in the config file which may not be available to you.
+              pass: configuration.gmailAccount().password, // Specific gmail account which can be found in the config file which may not be available to you.
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          });
+
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: `Koloshop app ${configuration.gmailAccount().email}`, // sender address
+            to: email,  //reciever address that was gotten from the frontend/client
+            subject: "Password rest from Koloshhop",
+            text: "<p>click<a href='http://localhost:8000/resetpassword'> here</a> to rest your password</p>", // plain text body
+            html: "<b>Paasword reset</b>", // html body
+          });
+
+          console.log("Message sent: %s", info.messageId);
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+        }
+        main().catch(console.error);
+
+        // message to be sent to the user upon completion of transaction
+      const message = [];
+      message.push({
+        msg: `a link has been sent to ${email}`
+      })
+      res.render("forgotPassword", {
+        message
+      });
     }
   })
-  
+
+})
+
+app.put('/resetpassword', (req, res) => {
+  console.log(req.body);
 })
 
 // This handles the transaction request of each user.
@@ -259,15 +338,26 @@ app.post("/user/api/cart/", (req, res) => {
     })
   })
 })
+
 // Login authentication.
+// secured login processs.
 app.post(
   "/koloshop/api/server/login",
   passport.authenticate("local", {
     successRedirect: "/mainpage",
     failureRedirect: "/login",
     failureFlash: true,
+    msg: "invalid login parameters"
   })
 );
+
+// example
+app.get("/users/:id", (req, res)=> {
+  const { id } = req.params;
+  db.query("select * from users where user_id = ?", id, (err, data)=> {
+    res.json(data);
+  })
+})
 
 const port = app.get("port");
 app.listen(port, () => console.log(`server started on port ${port}`));

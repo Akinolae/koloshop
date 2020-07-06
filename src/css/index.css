@@ -3,25 +3,46 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+footer p {
+  color: #000000;
+  text-align: center;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+.inner2 {
+  width: 100%;
+  justify-content: center;
+}
 
 .register {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.747)),
     url(../images/woman-wearing-white-button-up-long-sleeved-blouse-1105353.jpg);
-  background-position: center center;
+  position: absolute;
+  background-position: top;
   background-size: cover;
   background-repeat: no-repeat;
+  overflow: hidden;
+  scroll-behavior: auto;
+  background-attachment: fixed;
 }
 
 /* A-tag style continues */
 
 /* Style of the div form */
-.form_reg{
-
-}
 
 .form>form>.form-group>input {
+  position: relative;
+  top: 50%;
   background: #ffffff;
   border-radius: 4px;
   border: none;
@@ -30,14 +51,11 @@
   outline: none;
   padding: 10px;
   margin-bottom: 15px;
-  width: 45%;
-  /* color: #f5f5f5; */
+  width: 100%;
 }
 
-.alert {
-  height: 50px;
-  width: 100%;
-
+.textArea {
+  margin-bottom: 10px;
 }
 
 .form>form>.form-group>button {
@@ -49,7 +67,7 @@
   text-align: center;
   font-family: sans-serif;
   padding: 10px;
-  width: 20%;
+  min-width: 15%;
   display: flex;
   justify-content: center;
   border-radius: 5px;
@@ -68,12 +86,12 @@
 }
 
 .form>form>h4 {
+  font-size: 16px;
   font-family: sans-serif;
   text-align: center;
   color: #fcfcfc;
   padding: 15px;
-  font-size: large;
-  text-transform: uppercase;
+  letter-spacing: 0.2rem;
 }
 
 .validate {
@@ -105,8 +123,8 @@
 .card>.card-body>button {
   display: flex;
   justify-content: center;
+  background: none;
   margin: auto;
-  background-color: #ec8b0c;
   border: none;
   outline: none;
   font-family: sans-serif;
@@ -152,6 +170,11 @@
   margin: auto;
 }
 
+.form {
+  width: 50%;
+  margin: auto;
+}
+
 .form a:hover {
   color: #8d8c8c;
   text-decoration: none;
@@ -163,10 +186,24 @@
   color: aliceblue;
 }
 
+.login {
+  margin-top: 10%;
+}
+
+.forgotPasswordForm {
+  margin-top: 10%;
+}
+
+.login a {
+  justify-content: center;
+  text-align: center;
+}
+
 /* Button style */
 .btn {
   display: flex;
   justify-content: center;
+  width: 150px;
 }
 
 form>p {
@@ -182,7 +219,7 @@ form>p {
 }
 
 .inner1 {
-  height: 50%;
+  height: 100vh;
   width: 100%;
   background: linear-gradient(rgba(49, 48, 48, 0.5), rgba(236, 139, 12, 0.808)), url(../images/classic-close-up-clothes-clothing-298864.jpg);
   background-position: center;
@@ -244,6 +281,35 @@ form>p {
   padding: 10px;
   font-family: sans-serif;
   font-weight: bolder;
+  cursor: pointer;
+}
+ .name > button {
+   border: none;
+   background: none;
+   color: #ffffff;
+   outline: none;
+ }
+.name>ul {
+  width: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease all;
+  transform: translateY(-10px);
+}
+.name button:focus > ul {
+  opacity: 1;
+  transform: translateY(0px);
+}
+.name>ul>li {
+  list-style: none;
+}
+
+.name>ul>li>a {
+  color: #ffff;
+  font-size: 16px;
 }
 
 .inner1>.user>h4 {
@@ -268,12 +334,14 @@ form>p {
 
 
 .info {
-  margin: 5%;
+  margin: 10% auto;
+  width: 100%;
   height: 300px;
 }
 
 .info_text {
   margin: 10px;
+  text-align: center;
 }
 
 .info_text>.info_btn>button {
@@ -292,6 +360,17 @@ form>p {
 .info_text>.info_btn>button:hover {
   background: #ffffff;
   color: #ec8b0c;
+}
+
+.info_text>.txt {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.info_btn {
+  margin-top: 5%;
+  width: 100%;
 }
 
 .info_text>.txt>h2 {
@@ -317,6 +396,31 @@ form>p {
   background-attachment: fixed;
   background-origin: border-box;
   background-repeat: no-repeat;
+}
+.collection2 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50vh;
+  width: 100%;
+  margin-top:10px;
+}
+
+.collection2_text {
+  width: 40%;
+}
+
+.collection2_img {
+  width: 30%;
+}
+#timbs {
+  transition: all ease 0.4s;
+}
+.collection2>.collection2_text >p{
+  color: #000000;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 10px;
 }
 
 .collection>.collection_text>button {
@@ -348,14 +452,48 @@ p {
 .card {
   margin: 5% auto;
 }
- .card > h5 {
-   padding: 10px;
-   text-align: center;
-   font-size: 16px;
- }
- .links {
-   display: flex;
-   width: 15rem;
-   margin: auto;
-   text-align: center;
- }
+
+.card>h5 {
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.login_links {
+  width: 15rem;
+  margin: auto;
+  text-align: center;
+}
+
+.error_alert,
+.success_alert {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  color: lightseagreen;
+}
+
+.error_alert {
+  color: red;
+}
+
+.reg_err {
+  padding: 3px;
+  justify-content: center;
+  text-align: center;
+  color: rgb(212, 79, 79);
+}
+
+.alert {
+  margin-top: 20px;
+}
+
+/* @media(width: 1020px 350px){ */
+/* .form { */
+/* width: 100%; */
+/* margin: auto; */
+/* } */
+/* .form>form>.form-group>input { */
+/* width: 70%; */
+/* } */
+/* } */

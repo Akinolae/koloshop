@@ -165,7 +165,11 @@ footer p {
   padding: 5px;
   text-align: center;
 }
-
+.validateEmail {
+  text-align: center;
+  font-family: sans-serif;
+  color: red;
+}
 .forgot {
   text-align: center;
   margin: auto;

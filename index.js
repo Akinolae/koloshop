@@ -11,7 +11,9 @@ const session = require("express-session");
 const {
   authenticated
 } = require("./config/ensureAuth");
-const { isAuthenticated } = require('./src/js/Oauth');
+const {
+  isAuthenticated
+} = require('./src/js/Oauth');
 const configuration = require("./config/gmailConfig");
 const JWT = require('jsonwebtoken');
 
@@ -72,16 +74,16 @@ app.get("/", (req, res) => {
   res.render("login");
 });
 
-app.get('/account', (req, res)=> {
+app.get('/account', (req, res) => {
   res.render("account");
 });
 
 app.get('/resetpassword/:id', isAuthenticated, (req, res) => {
   // res.render('resetpassword');
   JWT.verify(req.token, 'koloshop', (err, authenticated) => {
-    if(err) {
+    if (err) {
       res.statusCode(400)
-    }else{
+    } else {
       res.render('resetpassword', {
         authenticated
       })
@@ -89,7 +91,7 @@ app.get('/resetpassword/:id', isAuthenticated, (req, res) => {
   })
 })
 
-app.get('/cart', (req, res)=> {
+app.get('/cart', (req, res) => {
   res.render('cart');
 })
 
@@ -140,7 +142,11 @@ app.get("/mainpage", authenticated, (req, res) => {
 // All post requests
 // POST request
 app.post("/save", (req, res) => {
-  const {firstname, lastname, accounttype } = req.body;
+  const {
+    firstname,
+    lastname,
+    accounttype
+  } = req.body;
   const user = {
     account_number: 202918826,
     firstname: firstname,
@@ -149,8 +155,8 @@ app.post("/save", (req, res) => {
     accountbalance: 10000
   }
   console.log(user);
-  db.query('INSERT INTO accounts SET ?', user, (err,data) => {
-    if(err) {
+  db.query('INSERT INTO accounts SET ?', user, (err, data) => {
+    if (err) {
       console.log(`${user.account_number} already exists`);
     };
     console.log(data)
@@ -172,15 +178,15 @@ app.post("/register", (req, res) => {
 
   const error = [];
 
-  db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, data)=> {
-    if(data.length > 0){
+  db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, data) => {
+    if (data.length > 0) {
       console.log(data);
       error.push({
         msg: `user with ${email} already exists`
       })
     }
   });
-  if(!email || !password || !user_age || !firstName || !address || !password2 ){
+  if (!email || !password || !user_age || !firstName || !address || !password2) {
     error.push({
       msg: "all fields are required"
     })
@@ -243,23 +249,34 @@ app.post("/register", (req, res) => {
 
 app.post("/passwordReset", (req, res) => {
   const error = [];
-  
-  const { email } = req.body;
-  db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, response) => {
-    if (response.length === 0) {
-      error.push({
-        message: `user with ${email} doesn't exist.`,
-        message2: "kindly input a valid email address."
-
-      })
-      res.render("forgotPassword", {
-        error
-      })
-      // If the query returns a value
-    } else if (response.length > 0) {
-        const resetToken = JWT.sign({response}, 'koloshop');
+  const validateEmail = []
+  const {
+    email
+  } = req.body;
+  if(!email){
+    validateEmail.push({
+      message: "your email address is required for a password reset."
+    })
+    res.render('forgotPassword', {
+      validateEmail
+    })
+  }else {
+    db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, response) => {
+      if (response.length === 0) {
+        error.push({
+          message: `user with ${email} doesn't exist.`,
+          message2: "kindly input a valid email address."
+        })
+        res.render("forgotPassword", {
+          error
+        })
+        // If the query returns a value
+      } else if (response.length > 0) {
+        const resetToken = JWT.sign({
+          response
+        }, 'koloshop');
         let responseText = `Dear shopper, we heard you forgot your password`;
-      console.log(response)
+        console.log(response)
         async function main() {
           // create reusable transporter object using the default SMTP transport
           let transporter = nodemailer.createTransport({
@@ -274,45 +291,45 @@ app.post("/passwordReset", (req, res) => {
               rejectUnauthorized: false
             }
           });
-
           // send mail with defined transport object
           let info = await transporter.sendMail({
             from: `Koloshop app ${configuration.gmailAccount().email}`, // sender address
-            to: email,  //reciever address that was gotten from the frontend/client
+            to: email, //reciever address that was gotten from the frontend/client
             subject: "Password rest from Koloshhop",
             text: "<p>click<a href='http://localhost:8000/resetpassword'> here</a> to rest your password</p>", // plain text body
             html: `
-            ${responseText}
-            <p>click http://localhost:8000/resetpassword/${resetToken} to rest your password</p>`, // html body
+          ${responseText}
+          <p>click http://localhost:8000/resetpassword/${resetToken} to rest your password</p>`, // html body
           });
-
           console.log("Message sent: %s", info.messageId);
           console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
         }
         main().catch(console.error);
-
         // message to be sent to the user upon completion of transaction
-      const message = [];
-      message.push({
-        msg: `a link has been sent to ${email}`
-      })
-      res.render("forgotPassword", {
-        message
-      });
-    }
-  })
-
+        const message = [];
+        message.push({
+          msg: `a link has been sent to ${email}`
+        })
+        res.render("forgotPassword", {
+          message
+        });
+      }
+    })
+  }
 })
 
 app.post('/resetpassword', (req, res) => {
-  const {password, password2} = req.body;
+  const {
+    password,
+    password2
+  } = req.body;
   const passwordResetError = [];
-  if(!password || !password2){
+  if (!password || !password2) {
     passwordResetError.push({
       msg: 'all fields are required'
     })
   }
-  if(password !== password2){
+  if (password !== password2) {
     passwordResetError.push({
       msg: `passwords don't match`
     })
@@ -366,9 +383,11 @@ app.post(
 );
 
 // example
-app.get("/users/:id", (req, res)=> {
-  const { id } = req.params;
-  db.query("select * from users where user_id = ?", id, (err, data)=> {
+app.get("/users/:id", (req, res) => {
+  const {
+    id
+  } = req.params;
+  db.query("select * from users where user_id = ?", id, (err, data) => {
     res.json(data);
   })
 })

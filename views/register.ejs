@@ -3,11 +3,13 @@
     <div class="container form">
       <form method="POST" action="/register" autocomplete="off">
         <h4>Create account</h4>
+        <div id="reg_err">
         <% if( typeof error != 'undefined') { %>
         <% error.forEach(function(err){ %>
-          <h6 class="reg_err"><%= err.msg %></h6>
+            <h6 class="reg_err"><%= err.msg %></h6>
         <% }) %>
         <% } %>
+            </div>
 
         <% if( typeof dbError != 'undefined') { %>
         <% dbError.forEach(function(error){ %>

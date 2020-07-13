@@ -11,8 +11,10 @@ const session = require("express-session");
 const {
   authenticated
 } = require("./config/ensureAuth");
+const { isAuthenticated } = require('./src/js/Oauth');
 const configuration = require("./config/gmailConfig");
-const accountNumber = Math.floor(Math.random() * 10000000000);
+const JWT = require('jsonwebtoken');
+
 
 //============================
 require("./config/passportAuth")(passport);
@@ -47,7 +49,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // creating global variables!
-
 // ================================
 
 // Created a database connection to Mysql.
@@ -60,15 +61,12 @@ db.connect((err) => {
   }
 });
 // =======================================
-
 // =================================
-
 // ==================
 
 // retrieve product data from the database
-
 // All get requests!. getting the basic routes to the website!
-// get requests
+// get requests.
 
 app.get("/", (req, res) => {
   res.render("login");
@@ -78,8 +76,17 @@ app.get('/account', (req, res)=> {
   res.render("account");
 });
 
-app.get('/resetpassword', (req, res) => {
-  res.render('resetpassword');
+app.get('/resetpassword/:id', isAuthenticated, (req, res) => {
+  // res.render('resetpassword');
+  JWT.verify(req.token, 'koloshop', (err, authenticated) => {
+    if(err) {
+      res.statusCode(400)
+    }else{
+      res.render('resetpassword', {
+        authenticated
+      })
+    }
+  })
 })
 
 app.get('/cart', (req, res)=> {
@@ -171,11 +178,11 @@ app.post("/register", (req, res) => {
       error.push({
         msg: `user with ${email} already exists`
       })
-    } 
+    }
   });
-  if(!email ){
+  if(!email || !password || !user_age || !firstName || !address || !password2 ){
     error.push({
-      msg: "email is required"
+      msg: "all fields are required"
     })
   }
   if (password !== password2) {
@@ -186,16 +193,6 @@ app.post("/register", (req, res) => {
   if (password.length < 6) {
     error.push({
       msg: "password must be more than 6 characters ",
-    });
-  }
-  if (user_age > 80) {
-    error.push({
-      msg: "user age cannot be greater than 80 ",
-    });
-  }
-  if (user_age < 18) {
-    error.push({
-      msg: "user must be 18 and above ",
     });
   }
   if (!address) {
@@ -237,12 +234,12 @@ app.post("/register", (req, res) => {
   }
 });
 
-
 //password reset 
 // Nodemailer is used here to send information to the email the user provided.
 // It checks that user exists before it carries out the assignment given to it.
 // It sends a string of messages upon completion of tasks
 // If you have any errors with my code, kindly visit the nodemailer website for more clarity. Thanks.
+
 
 app.post("/passwordReset", (req, res) => {
   const error = [];
@@ -260,9 +257,10 @@ app.post("/passwordReset", (req, res) => {
       })
       // If the query returns a value
     } else if (response.length > 0) {
-
+        const resetToken = JWT.sign({response}, 'koloshop');
+        let responseText = `Dear shopper, we heard you forgot your password`;
+      console.log(response)
         async function main() {
-
           // create reusable transporter object using the default SMTP transport
           let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -283,7 +281,9 @@ app.post("/passwordReset", (req, res) => {
             to: email,  //reciever address that was gotten from the frontend/client
             subject: "Password rest from Koloshhop",
             text: "<p>click<a href='http://localhost:8000/resetpassword'> here</a> to rest your password</p>", // plain text body
-            html: "<b>Paasword reset</b>", // html body
+            html: `
+            ${responseText}
+            <p>click http://localhost:8000/resetpassword/${resetToken} to rest your password</p>`, // html body
           });
 
           console.log("Message sent: %s", info.messageId);
@@ -304,8 +304,22 @@ app.post("/passwordReset", (req, res) => {
 
 })
 
-app.put('/resetpassword', (req, res) => {
-  console.log(req.body);
+app.post('/resetpassword', (req, res) => {
+  const {password, password2} = req.body;
+  const passwordResetError = [];
+  if(!password || !password2){
+    passwordResetError.push({
+      msg: 'all fields are required'
+    })
+  }
+  if(password !== password2){
+    passwordResetError.push({
+      msg: `passwords don't match`
+    })
+  }
+  res.render('resetpassword', {
+    passwordResetError
+  })
 })
 
 // This handles the transaction request of each user.
@@ -358,6 +372,7 @@ app.get("/users/:id", (req, res)=> {
     res.json(data);
   })
 })
+
 
 const port = app.get("port");
 app.listen(port, () => console.log(`server started on port ${port}`));

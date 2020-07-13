@@ -61,123 +61,244 @@
             <div class="product_header " id="Shoes">
                 <h5>SHOE COLLECTION</h5>
             </div>
-            <div class="container row mt-4">
-                <% if(result.length === 0) { %>
-                <div class="unavailable">
-                    <h4>Shoes are not available at this time kindly checkback in few minutes</h4>
-                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
-                </div>
-                <% } %>
+          <div class='container1'>
+            <% if(result.length === 0) { %>
+            <div class="unavailable">
+                <h4>Shoes are not available at this time kindly checkback in few minutes</h4>
+                <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+            </div>
+            <% } %>
 
-                <% result.forEach((data)=> { %>
-                <div class="col-m-3 m-4">
-                    <div class="card" style="width: 18rem;">
-                        <img id="card_img" height="180" src=<%= data.image %> class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 id="shoe_name"><%= data.shoe_name %></h6>
-                            <h5 class="card-title price" id="shoe_price"><%= data.shoe_price %> </h5>
-                            <button id=<%= data.shoe_id %><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
-                                    aria-hidden="true"></i></span></button>
+               <% result.forEach((data)=> { %>
+                <div class='card1'>
+                    <div class='card-content'>
+                        <div class='top-bar'>
+                            <span>
+                                <%= data.shoe_price %>
+                            </span>
+                            <span class='float-right lnr lnr-heart'></span>
+                        </div>
+                        <div class='img'>
+                            <img src=<%= data.image %> />
+                        </div>
+                    </div>
+                    <div class='card-description'>
+                        <div class='title'>
+                            <%= data.shoe_name %>
+                        </div>
+                        <div class='cart'>
+                            <span class='lnr lnr-cart'></span>
+                        </div>
+                    </div>
+                    <div class='card-footer'>
+                        <div class='span'>
+                            RED
+                        </div>
+                        <div class='span'>
+                            BEATS
+                        </div>
+                        <div class='span'>
+                            HEADPHONE
                         </div>
                     </div>
                 </div>
                 <% }) %>
-            </div>
+          </div>
 
-            <div class="product_header" id="Phones">
-                <h4>PHONE COLLECTION</h4>
+
+          <!-- Phone collection -->
+           <div class="product_header" id="Phones">
+               <h4>PHONE COLLECTION</h4>
+           </div>
+           <div class="container1">
+           <% if(result2.length === 0 ) { %>
+            <div class="unavailable">
+                <h4>Phones are not available at this time kindly checkback in few minutes</h4>
+                <img src="../src/images/worker-crying_1012-222.jpg" alt="">
             </div>
-            <div class="container row mt-4">
-                <% if(result2.length === 0 ) { %>
-                <div class="unavailable">
-                    <h4>Phones are not available at this time kindly checkback in few minutes</h4>
-                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
-                </div>
-                <% } %>
-                <% result2.forEach((Phones)=> { %>
-                <div class="col-m-3 m-4">
-                    <div class="card" style="width: 18rem;">
-                        <img src=<%= Phones.image %> height="180" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6><%= Phones.phone_name %></h6>
-                            <h5 class="card-title price" id="phone_price"><%= Phones.phone_price %> </h5>
-                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
-                                        aria-hidden="true"></i></span></i></button>
+            <% } %>
+
+            <% result2.forEach((Phones)=> { %>
+                <div class='card1'>
+                    <div class='card-content'>
+                        <div class='top-bar'>
+                            <span>
+                                <%= Phones.phone_price %>
+                            </span>
+                            <span class='float-right lnr lnr-heart'></span>
+                        </div>
+                        <div class='img'>
+                            <img src=<%= Phones.image %> />
+                        </div>
+                    </div>
+                    <div class='card-description'>
+                        <div class='title'>
+                            <%= Phones.phone_name %>
+                        </div>
+                        <div class='cart'>
+                            <span class='lnr lnr-cart'></span>
+                        </div>
+                    </div>
+                    <div class='card-footer'>
+                        <div class='span'>
+                            RED
+                        </div>
+                        <div class='span'>
+                            BEATS
+                        </div>
+                        <div class='span'>
+                            HEADPHONE
                         </div>
                     </div>
                 </div>
-                <% }) %>
+            <% }) %>
             </div>
+
+
+            <!-- Bag collection -->
             <div class="product_header" id="Bags">
                 <h4>BAG COLLECTION</h4>
             </div>
-            <div class="container row mt-4">
+             <div class="container1">
                 <% if(result3.length === 0 ) { %>
                 <div class="unavailable">
                     <h4>Bags are not available at this time kindly checkback in few minutes</h4>
                     <img src="../src/images/worker-crying_1012-222.jpg" alt="">
                 </div>
                 <% } %>
-                <% result3.forEach((bag)=> { %>
-                <div class="col-m-3 m-4">
-                    <div class="card" style="width: 18rem;">
-                        <img src=<%= bag.image %> height="180" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6><%= bag.bag_name %></h6>
-                            <h5 class="card-title price" id="phone_price"><%= bag.bag_price %> </h5>
-                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;"
-                                        aria-hidden="true"></i></span></button>
+
+                 <% result3.forEach((bag)=> { %>
+                        <div class='card1'>
+                            <div class='card-content'>
+                                <div class='top-bar'>
+                                    <span>
+                                        <%= bag.bag_price %>
+                                    </span>
+                                    <span class='float-right lnr lnr-heart'></span>
+                                </div>
+                                <div class='img'>
+                                    <img src=<%= bag.image %> />
+                                </div>
+                            </div>
+                            <div class='card-description'>
+                                <div class='title'>
+                                    <%= bag.bag_name %>
+                                </div>
+                                <div class='cart'>
+                                    <span class='lnr lnr-cart'></span>
+                                </div>
+                            </div>
+                            <div class='card-footer'>
+                                <div class='span'>
+                                    RED
+                                </div>
+                                <div class='span'>
+                                    BEATS
+                                </div>
+                                <div class='span'>
+                                    HEADPHONE
+                                </div>
+                            </div>
+                        </div>
+                     <% }) %>
+             </div>
+
+             <!-- clothes collection -->
+             <div class="product_header" id="Clothes">
+                 <h4>CLOTH COLLECTION</h4>
+             </div>
+             <div class="container1">
+                  <% if(result4.length === 0 ) { %>
+                  <div class="unavailable">
+                      <h4>Clothes are not available at this time kindly checkback in few minutes</h4>
+                      <img src="../src/images/worker-crying_1012-222.jpg" alt="">
+                  </div>
+                  <% } %>
+                  <% result4.forEach((cloth)=> { %>
+                    <div class='card1'>
+                        <div class='card-content'>
+                            <div class='top-bar'>
+                                <span>
+                                    <%= cloth.cloth_price %>
+                                </span>
+                                <span class='float-right lnr lnr-heart'></span>
+                            </div>
+                            <div class='img'>
+                                <img src=<%= cloth.image %> />
+                            </div>
+                        </div>
+                        <div class='card-description'>
+                            <div class='title'>
+                                <%= cloth.cloth_name %>
+                            </div>
+                            <div class='cart'>
+                                <span class='lnr lnr-cart'></span>
+                            </div>
+                        </div>
+                        <div class='card-footer'>
+                            <div class='span'>
+                                RED
+                            </div>
+                            <div class='span'>
+                                BEATS
+                            </div>
+                            <div class='span'>
+                                HEADPHONE
+                            </div>
                         </div>
                     </div>
-                </div>
-                <% }) %>
-            </div>
-            <div class="product_header" id="Clothes">
-                <h4>CLOTH COLLECTION</h4>
-            </div>
-            <div class="container row mt-4">
-                <% if(result4.length === 0 ) { %>
-                <div class="unavailable">
-                    <h4>Clothes are not available at this time kindly checkback in few minutes</h4>
-                    <img src="../src/images/worker-crying_1012-222.jpg" alt="">
-                </div>
-                <% } %>
-                <% result4.forEach((cloth)=> { %>
-                <div class="col-m-3 m-4">
-                    <div class="card" style="width: 18rem;">
-                        <img src=<%= cloth.image %> height="180" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6><%= cloth.cloth_name %></h6>
-                            <h5 class="card-title price" id="phone_price"><%= cloth.cloth_price %> </h5>
-                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;" aria-hidden="true"></i></span></button>
-                        </div>
-                    </div>
-                </div>
-                <% }) %>
-            </div>
-            <div class="product_header" id="Watches">
-                <h4>WATCH COLLECTION</h4>
-            </div>
-            <div class="container row mt-4">
+                  <% }) %>
+             </div>
+
+             <!-- watch collection -->
+             <div class="product_header" id="Watches">
+                 <h4>WATCH COLLECTION</h4>
+             </div>
+             <div class="container1">
                 <% if(result5.length === 0 ) { %>
                 <div class="unavailable">
                     <h4>Watches are not available at this time kindly checkback in few minutes</h4>
                     <img src="../src/images/worker-crying_1012-222.jpg" alt="sad" height="150" width="150">
                 </div>
                 <% } %>
+
                 <% result5.forEach((watch)=> { %>
-                <div class="col-sm-3 m-4">
-                    <div class="card" style="width: 15rem;">
-                        <img src=<%= watch.image %> height="220" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6><%= watch.Wristwatch_name %></h6>
-                            <h5 class="card-title price" id="phone_price"><%= watch.Wristwatch_price %> </h5>
-                            <button class="cart"><span><i class="fa fa-shopping-cart" style="color: #ec8b0c;" aria-hidden="true"></i></span></button>
+                    <div class='card1'>
+                        <div class='card-content'>
+                            <div class='top-bar'>
+                                <span>
+                                    <%= watch.watch_price %>
+                                </span>
+                                <span class='float-right lnr lnr-heart'></span>
+                            </div>
+                            <div class='img'>
+                                <img src=<%= watch.image %> />
+                            </div>
+                        </div>
+                        <div class='card-description'>
+                            <div class='title'>
+                                <%= watch.watch_name %>
+                            </div>
+                            <div class='cart'>
+                                <span class='lnr lnr-cart'></span>
+                            </div>
+                        </div>
+                        <div class='card-footer'>
+                            <div class='span'>
+                                RED
+                            </div>
+                            <div class='span'>
+                                BEATS
+                            </div>
+                            <div class='span'>
+                                HEADPHONE
+                            </div>
                         </div>
                     </div>
-                </div>
-                <% }) %>
-            </div>
+                 <% }) %>
+             </div>
+        </div>
+        
         </div>
         <div class="collection">
             <div class="collection_text">

@@ -541,7 +541,7 @@ p {
 }
 
 @media screen and (max-width: 720px) {
-  .container {
+  .container1 {
     grid-template-columns: 1fr;
     margin: 50px 30px;
   }

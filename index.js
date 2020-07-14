@@ -295,11 +295,11 @@ app.post("/passwordReset", (req, res) => {
           let info = await transporter.sendMail({
             from: `Koloshop app ${configuration.gmailAccount().email}`, // sender address
             to: email, //reciever address that was gotten from the frontend/client
-            subject: "Password rest from Koloshhop",
-            text: "<p>click<a href='http://localhost:8000/resetpassword'> here</a> to rest your password</p>", // plain text body
+            subject: "Password reset from Koloshop",
+            text: "<p>click<a href='http://localhost:8000/resetpassword'> here</a> to reset your password</p>", // plain text body
             html: `
           ${responseText}
-          <p>click http://localhost:8000/resetpassword/${resetToken} to rest your password</p>`, // html body
+          <p>click http://localhost:8000/resetpassword/${resetToken} to reset your password</p>`, // html body
           });
           console.log("Message sent: %s", info.messageId);
           console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));

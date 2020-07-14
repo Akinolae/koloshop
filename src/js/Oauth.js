@@ -2,7 +2,7 @@ const JWT = require('jsonwebtoken');
 
 module.exports = {
     isAuthenticated: function (req, res, next) {
-        const userHeader = req.header['validate'];
+        const userHeader = req.params['validate'];
         if (typeof userHeader !== 'undefined') {
             const user = userHeader.split(' ');
             const token = user[1];
@@ -14,4 +14,7 @@ module.exports = {
             });
         }
     },
+    privateKey: function (){
+        return 'koloshop';
+    }
 }

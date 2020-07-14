@@ -12,15 +12,16 @@ const {
   authenticated
 } = require("./config/ensureAuth");
 const {
-  isAuthenticated
+  isAuthenticated, privateKey
 } = require('./src/js/Oauth');
 const configuration = require("./config/gmailConfig");
 const JWT = require('jsonwebtoken');
 
-
 //============================
 require("./config/passportAuth")(passport);
 const app = express();
+
+
 // Initializing all middlewares
 app.use(express.json());
 app.use(
@@ -84,9 +85,10 @@ app.get('/resetpassword/:id', isAuthenticated, (req, res) => {
     if (err) {
       res.statusCode(400)
     } else {
-      res.render('resetpassword', {
-        authenticated
-      })
+      // res.render('resetpassword', {
+        // authenticated
+      // })
+      console.log(req.token)
     }
   })
 })
@@ -274,7 +276,7 @@ app.post("/passwordReset", (req, res) => {
       } else if (response.length > 0) {
         const resetToken = JWT.sign({
           response
-        }, 'koloshop');
+        }, privateKey());
         let responseText = `Dear shopper, we heard you forgot your password`;
         console.log(response)
         async function main() {

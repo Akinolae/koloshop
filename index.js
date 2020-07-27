@@ -16,7 +16,6 @@ const {
 } = require('./src/js/Oauth');
 const configuration = require("./config/gmailConfig");
 const JWT = require('jsonwebtoken');
-
 //============================
 require("./config/passportAuth")(passport);
 const app = express();
@@ -80,7 +79,8 @@ app.get('/account', (req, res) => {
 });
 
 app.get('/resetpassword/:id', isAuthenticated, (req, res) => {
-  // res.render('resetpassword');
+  // res.render('resetpassword');co
+  const token = req.params.id;
   JWT.verify(req.token, 'koloshop', (err, authenticated) => {
     if (err) {
       res.statusCode(400)
@@ -278,7 +278,6 @@ app.post("/passwordReset", (req, res) => {
           response
         }, privateKey());
         let responseText = `Dear shopper, we heard you forgot your password`;
-        console.log(response)
         async function main() {
           // create reusable transporter object using the default SMTP transport
           let transporter = nodemailer.createTransport({

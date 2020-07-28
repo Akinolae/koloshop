@@ -35,8 +35,6 @@
                                 <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart" style="color: #ffff;" aria-hidden="true"></i></a>
                             </li>
                             <li class="nav-item name">
-                                <i class="fa fa-user" aria-hidden="true"></i>
-                                <button><%= name.user_name %></button>
                                 <ul><a class="nav-link" href="/logout">log out</a></ul>
                             </li>
                         </ul>
@@ -45,6 +43,9 @@
             </div>
             <div class="info container">
                 <div class="info_text">
+                    <div>
+                        <h2 style="color: #ffff; padding-bottom: 30px;">Hello, <span><%= name.user_name %></span></h2>
+                    </div>
                     <div class="txt">
                         <h2>Buy Best Products From All Over The World</h2>
                         <p>get the best products from Koloshop at a very affordable price <br>

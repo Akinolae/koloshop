@@ -50,6 +50,8 @@ module.exports = {
             user_age,
             address
         } = req.body;
+        const code = Math.floor(Math.random() * 1000000);
+        console.log(code);
         const error = [];
         db.query("SELECT user_email FROM users WHERE user_email = ?", email, (err, data) => {
             if (data.length > 0) {
@@ -87,8 +89,16 @@ module.exports = {
                 error,
             });
         } else {
+            const message = `
+                <div>
+                    <div>
+                        <h1>Account activation code </h1>
+                        <p>${code}</p>
+                    </div>
+                </div>
+            `;
             const hash = encrypt.hashSync(password);
-
+            const date = new Date();
             const user = {
                 user_name: firstName,
                 user_email: email,
@@ -107,7 +117,7 @@ module.exports = {
                         dbError,
                     });
                 } else {
-                    res.redirect('/login');
+                    res.redirect('/activate');
                 }
             });
         }

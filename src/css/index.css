@@ -43,7 +43,8 @@ footer p {
 .form>form>.form-group>input {
   position: relative;
   top: 50%;
-  background: #ffffff;
+  /* background: #ffffff; */
+  /* background: rgb(172, 57, 57); */
   border-radius: 4px;
   border: none;
   display: block;

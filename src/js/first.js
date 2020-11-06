@@ -13,18 +13,4 @@ const shoe_price = document.getElementById('shoe_price');
 function getData () {
     fetch(`http://localhost:8000/users/${user_id}`).then((res)=> res.json()).then((data) => console.log(data))
 }
-// getData();
-
-let arr = [5, 1, 0,8,34, 22,3];
-let newArr = []
-let obj = {
-    first: "Ak",
-    second: 'ak2',
-    third: 'ak3',
-    four: 'ak4'
-}
-
-function arrData() {
-    console.log(arr.sort())
-}
-arrData();
+getData();

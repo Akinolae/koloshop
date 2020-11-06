@@ -69,6 +69,10 @@ app.get('/cart', (req, res) => {
   res.render('cart');
 })
 
+app.get('/activate', (req, res) => {
+  res.render('activate')
+})
+
 app.get("/register", (req, res) => {
   res.render("register");
 });
